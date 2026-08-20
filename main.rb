@@ -1,3 +1,4 @@
+player_busted = false
 ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
 suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
 deck = []
@@ -60,6 +61,7 @@ if total_rank_value_player <= 21
 else
     puts "Sorry, but you busted!"
     player_response = "stand"
+    player_busted = true
 end
 until player_response == "stand"
     card_dealt = shuffled_deck.pop
@@ -71,8 +73,26 @@ until player_response == "stand"
         puts "Player's card value: #{total_rank_value_player}"
         print "\nWould you like to stand or hit? "
         player_response = gets.chomp.downcase
+        player_busted = false
     else
         puts "Sorry, but you busted!"
+        player_busted = true
         break
     end
+end
+if player_busted == false
+    puts "Dealer's Turn"
+    until total_rank_value_dealer >= 17
+        card_dealt = shuffled_deck.pop
+        dealer_hand << card_dealt
+        rank_value_dealer = rank_value[card_dealt["rank"]]
+        total_rank_value_dealer += rank_value_dealer
+    end
+    puts "Dealer's hand: #{dealer_hand}"
+    if total_rank_value_dealer <= 21
+        puts "The dealer did not bust. Dealer's card value: #{total_rank_value_dealer}"
+    else   
+        puts "The dealer busted. Dealer's card value: #{total_rank_value_dealer}"
+    end
+    puts "Your card value: #{total_rank_value_player}"
 end
