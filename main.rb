@@ -1,4 +1,8 @@
 player_busted = false
+dealer_busted = false
+player_is_greater = false
+dealer_is_greater = false
+players_tied = false
 ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
 suits = ["Hearts", "Diamonds", "Clubs", "Spades"]
 deck = []
@@ -54,6 +58,7 @@ end
 puts "Player's card value: #{total_rank_value_player}"
 puts "Dealer's card value: #{total_rank_value_dealer}"
 if total_rank_value_player <= 21
+    puts card_dealt
     puts "Player's hand: #{player_hand}"
     puts "Player's card value: #{total_rank_value_player}"
     print "\nWould you like to stand or hit? "
@@ -75,7 +80,11 @@ until player_response == "stand"
         player_response = gets.chomp.downcase
         player_busted = false
     else
+        puts card_dealt
+        puts "#{rank_value[card_dealt["rank"]]}"
+        puts total_rank_value_player
         puts "Sorry, but you busted!"
+        puts "Dealer won!"
         player_busted = true
         break
     end
@@ -90,9 +99,27 @@ if player_busted == false
     end
     puts "Dealer's hand: #{dealer_hand}"
     if total_rank_value_dealer <= 21
-        puts "The dealer did not bust. Dealer's card value: #{total_rank_value_dealer}"
-    else   
+        puts "The dealer did not bust. They successfully reach 17 (or higher) Dealer's card value: #{total_rank_value_dealer}"
+        dealer_busted = false
+    else
+        dealer_busted = true   
         puts "The dealer busted. Dealer's card value: #{total_rank_value_dealer}"
+        puts "Congrats! You won!"
     end
     puts "Your card value: #{total_rank_value_player}"
+end
+if player_busted == false && dealer_busted == false
+    puts "Neither you nor the dealer busted!"
+    puts "Your total: #{total_rank_value_player}"
+    puts "Dealer's total: #{total_rank_value_dealer}"
+    player_is_greater = total_rank_value_player > total_rank_value_dealer
+    dealer_is_greater = total_rank_value_dealer > total_rank_value_player
+    players_tied = total_rank_value_player == total_rank_value_dealer
+end
+if player_is_greater == true
+    puts "Congrats! You beat the dealer"
+elsif dealer_is_greater == true
+    puts "Aw man! You didn't win."
+elsif players_tied == true
+    puts "You and the dealer tied!"
 end
