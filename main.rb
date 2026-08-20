@@ -52,3 +52,15 @@ dealer_hand.each do |card|
 end
 puts "Player's card value: #{total_rank_value_player}"
 puts "Dealer's card value: #{total_rank_value_dealer}"
+print "\nWould you like to stand or hit?"
+player_response = gets.chomp.downcase
+until player_response == "stand"
+    card_dealt = shuffled_deck.pop
+    player_hand << card_dealt
+    rank_value_player = rank_value[card_dealt["rank"]]
+    total_rank_value_player += rank_value_player
+    puts "Player's hand: #{player_hand}"
+    puts "Player's card value: #{total_rank_value_player}"
+    print "\nWould you like to stand or hit? "
+    player_response = gets.chomp.downcase
+end
