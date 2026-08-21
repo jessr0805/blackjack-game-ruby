@@ -73,6 +73,9 @@ until player_response == "stand"
     player_hand << card_dealt
     rank_value_player = rank_value[card_dealt["rank"]]
     total_rank_value_player += rank_value_player
+    while total_rank_value_player > 21 && player_hand.any? { |card| card["rank"] == "Ace" }
+    total_rank_value_player -= 10
+    end    
     if total_rank_value_player <= 21
         puts "Player's hand: #{player_hand}"
         puts "Player's card value: #{total_rank_value_player}"
@@ -96,6 +99,9 @@ if player_busted == false
         dealer_hand << card_dealt
         rank_value_dealer = rank_value[card_dealt["rank"]]
         total_rank_value_dealer += rank_value_dealer
+        while total_rank_value_dealer > 21 && dealer_hand.any? { |card| card["rank"] == "Ace" }
+            total_rank_value_dealer -= 10
+        end 
     end
     puts "Dealer's hand: #{dealer_hand}"
     if total_rank_value_dealer <= 21
